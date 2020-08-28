@@ -1,5 +1,5 @@
 # PalBER
-User Manual – October 2019
+User Manual – September 2020
 File
 PalBER.R
 Script including all functions for Paleartic bioclim method
@@ -27,9 +27,10 @@ Method to infer past climate zones and quantify past climate condition by using 
 The “Func_BCI_Calcul” function allows to calculate the BCI values for each small mammal associations
 The “Func_BCI_Calcul” function allows to predict the climate zone through an LDA and to quantify past climate factors
 The “Func_BIOCLIM2” function include both functions “Func_BCI_Calcul” and “Func_LDA”
- 
+New faunal species can be add or modify by directly modifying the “data_species_biozone.csv” file dataset.
+
 Example
-# creating a faunal list with real species and Fake_species, which does not exist in the database.
+# creating a faunal list with real species and Fake_species, which does not exist in the database, in order to show how works the option “verif” (if species names are wrongly written or exist).
 
 LVLn_of_siteS <- c("Dicrostonyx_torquatus", "Alexandromys_oeconomus",              "Microtus_arvalis", "Sorex_araneus", "Neomys_fodiens", "Fake_species")  
 # Calcul of BCI from Rodentia and Eulipotyphla, with verification of faunal list used for calculation
@@ -47,6 +48,9 @@ res_lda <- func_LDA(BCI_LVLn_of_siteS, EUL = TRUE, interval = "confidence" )
 res_lda
 
 
+# Getting the coefficients from the multiple regressions on the reference dataset
+# (only available if quantiv argument is set to TRUE) as well as other summary statistics (r2, adjusted r2, F statistics and associated p-value)
+attr(res_lda, "Coefficients")
 
 
 LVLn1_of_siteS <- c("Dicrostonyx_torquatus", "Alexandromys_oeconomus",                    "Microtus_arvalis")
