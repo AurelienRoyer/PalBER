@@ -16,8 +16,7 @@ Func_BIOCLIM2.list <- function(List, EUL = TRUE, quantiv = TRUE, interval =
                                "IV", "V", "VI", "VII",	"VIII",	"IX")),
                                eulrodcol = paste0("EulRod_", c("I", "II",
                                "II/III", "III", "IV", "V", "VI", "VII",
-                               "VIII", "IX")), keepCol = rep(TRUE, 10),
-                               as_list = FALSE){
+                               "VIII", "IX")), keepCol = rep(TRUE, 10)){
 
   lres <- lapply(List, Func_BIOCLIM2, EUL = EUL, quantiv = quantiv, interval =
                  interval, verif = verif, BioZoneFile = BioZoneFile, taxcol =
@@ -25,12 +24,6 @@ Func_BIOCLIM2.list <- function(List, EUL = TRUE, quantiv = TRUE, interval =
                  eulipotyphlaName = eulipotyphlaName, BioClimFile = BioClimFile,
                  stationcol = stationcol, biomecol = biomecol, climcol = climcol,
                  rodcol = rodcol, eulrodcol = eulrodcol, keepCol = keepCol)
-
-  # converting resulting list as a matrix
-  if (!as_list){
-    lres <- do.call(rbind, lres)
-    rownames(lres) <- NULL
-  }
 
   return(lres)
 }
@@ -67,13 +60,6 @@ Func_BIOCLIM2.character <- function(Data, EUL = TRUE, quantiv = TRUE, interval =
                              eulrodcol = eulrodcol, keepCol = keepCol)
 
   # printing results
-  # selecting only Rodentia if needed
-  if(EUL) {
-    mammals_nom <- "Rodentia and Eulipotyphla"
-  } else {
-    mammals_nom <- "Rodentia"
-  }
-  cat("\n", paste0("Computations from model including ", mammals_nom, ":"), "\n")
   print(table_resultat)
 
   return(table_resultat)
@@ -87,22 +73,12 @@ Func_BCI_Calcul <- function(M, ...){
 Func_BCI_Calcul.list <- function(List, BioZoneFile = "data_species_biozone.csv",
                                  taxcol = "Taxon", ordercol = "Ordre",
                                  rodentiaName = "RODENTIA", eulipotyphlaName =
-                                 "EULIPOTYPHLA", EUL = TRUE, verif = FALSE,
-                                 as_list = FALSE){
+                                 "EULIPOTYPHLA", EUL = TRUE, verif = FALSE){
 
   lres <- lapply(List, Func_BCI_Calcul, BioZoneFile = BioZoneFile,
                  taxcol = taxcol, ordercol = ordercol, rodentiaName =
                  rodentiaName, eulipotyphlaName = eulipotyphlaName, EUL = EUL,
                  verif = verif)
-
-
-  # converting resulting list as a matrix
-  if (!as_list){
-    EUL <- unlist(lapply(lres, attr, "EUL"))
-    lres <- do.call(rbind, lres)
-    rownames(lres) <- NULL
-    attr(lres, "EUL") <- EUL
-  }
 
   return(lres)
 }
@@ -176,12 +152,12 @@ Func_BCI_Calcul.character <- function(Data, BioZoneFile = "data_species_biozone.
     return(NULL)
   }
 
+  # giving attribute EUL to the results for compatibility with the func_LDA function
+  attr(BCI, "EUL") <- EUL
+
   # printing results
   cat("\n", paste("BCI calculated with", mammals_nom), "\n")
   print(BCI)
-
-  # giving attribute EUL to the results for compatibility with the func_LDA function
-  attr(BCI, "EUL") <- EUL
 
   return(BCI)
 }
@@ -189,38 +165,6 @@ Func_BCI_Calcul.character <- function(Data, BioZoneFile = "data_species_biozone.
 
 func_LDA <- function(M, ...){
   UseMethod("func_LDA", M)
-}
-
-func_LDA.matrix  <- function(DF, quantiv = TRUE, interval = "prediction",
-                          EUL = as.list(attr(DF, "EUL")),  BioClimFile =
-                          "bioclimatic spectra and climate.csv",
-                            stationcol = "Site", biomecol = "Biome",
-                            climcol = c("MAT", "Tp",	"Tmax",	"Tmin", "Mta",
-                            "It", "Itc", "P", "D"),
-                            rodcol = paste0("Rod_", c("I", "II",	"II/III",
-                            "III",	"IV", "V", "VI", "VII",	"VIII",	"IX")),
-                            eulrodcol = paste0("EulRod_", c("I", "II",
-                            "II/III", "III", "IV", "V", "VI", "VII", "VIII",
-                            "IX")), keepCol = rep(TRUE, 10), as_list = FALSE){
-
-  List <- split(DF, seq(nrow(DF)))
-  names(List) <- NULL
-
-  lres <- mapply(func_LDA, List, EUL = EUL, MoreArgs = list(quantiv = quantiv,
-                 interval = interval, BioClimFile = BioClimFile, stationcol =
-                 stationcol, biomecol = biomecol, climcol = climcol, rodcol =
-                 rodcol, eulrodcol = eulrodcol, keepCol = keepCol), SIMPLIFY =
-                 FALSE)
-
-  # converting resulting list as a matrix
-  if (!as_list){
-    lres <- do.call(rbind, lres)
-    rownames(lres) <- NULL
-  }
-
-  return(lres)
-
-
 }
 
 func_LDA.list <- function(List, quantiv = TRUE, interval = "prediction",
@@ -233,18 +177,13 @@ func_LDA.list <- function(List, quantiv = TRUE, interval = "prediction",
                             "III",	"IV", "V", "VI", "VII",	"VIII",	"IX")),
                             eulrodcol = paste0("EulRod_", c("I", "II",
                             "II/III", "III", "IV", "V", "VI", "VII", "VIII",
-                            "IX")), keepCol = rep(TRUE, 10), as_list = FALSE) {
+                            "IX")), keepCol = rep(TRUE, 10)) {
 
   lres <- mapply(func_LDA, List, EUL = EUL, MoreArgs = list(quantiv = quantiv,
                  interval = interval, BioClimFile = BioClimFile, stationcol =
                  stationcol, biomecol = biomecol, climcol = climcol, rodcol =
                  rodcol, eulrodcol = eulrodcol, keepCol = keepCol), SIMPLIFY =
                  FALSE)
-
-  if (!as_list){
-    lres <- do.call(rbind, lres)
-    rownames(lres) <- NULL
-  }
 
   return(lres)
 }
@@ -314,7 +253,7 @@ func_LDA.numeric <- function(Names, EUL = attr(Names, "EUL"), quantiv = TRUE,
 
     # loop over dependent climatic variables
     tempvalue_list <- list()
-    Value_list <- list()
+    Value_list <- lm_list <- list()
     for(j in 1:ncol(data_clim_station)){
 
       # building dataframe for lm with the jth climatic variable
@@ -332,18 +271,30 @@ func_LDA.numeric <- function(Names, EUL = attr(Names, "EUL"), quantiv = TRUE,
       tmpPred <- predict.lm(tmpLM, newdata = newdataX, interval = interval,
                         level = 0.95, type = "response")
 
-      # saving predict.lm objects in a list
+      # saving lm & predict.lm objects in lists
+      lm_list[[j]] <- tmpLM
       Value_list[[j]] <- tmpPred
 
     }
+
+    # extracting multiple regression coefficients from lm_list + summary statistics for the multiple regressions
+    Coe <- sapply(lm_list, coef)
+    colnames(Coe) <- Clim_VarNames
+    Coe <- t(Coe)
+    r2 <- sapply(lm_list, function(lmo){summary(lmo)$r.squared})
+    adj_r2 <- sapply(lm_list, function(lmo){summary(lmo)$adj.r.squared})
+    fstat <- sapply(lm_list, function(lmo){summary(lmo)$fstatistic})
+    pval <- pf(fstat[1, ], fstat[2, ], fstat[3, ], lower.tail=FALSE)
+    fstat <- fstat[1, ]
+    Coe <- cbind(Coe, r2, adj_r2, fstat, pval)
 
     # converting Value_list as a dataframe
     Value_list <- as.data.frame(Value_list)
     colnames(Value_list) <- paste0(rep(Clim_VarNames, each=3), c("_fit","_lwr","_upr"))
 
-    # storing results
+    # storing results of predictions (multiple regression coefficients being stored as an attribute to the exported object)
     synthese <- data.frame(synthese, Value_list)
-
+    attr(synthese, "Coefficients") <- Coe
   }
 
   return(synthese)
