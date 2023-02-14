@@ -16,13 +16,13 @@ Func_BCI_Calcul (x, EUL = TRUE, verif= FALSE, as_list = FALSE)
 Func_LDA (y, EUL = TRUE, quantiv = TRUE, interval = “prediction”, as_list = FALSE)
  
 Arguments <br>
-x                            a list of fauna.
-y                      a list of 10 numeric BCI values for each plus the total number of fauna used
-EUL                       a logical value indicating whether Eulipotyphla taxa should be stripped before the computation proceeds. TRUE, include Eulipotyphla in computation. False, exclude it.
-VERIF                   function determining if a verification of faunal elements should be given. Verification allows to know what elements are excluded, which can be related to three reasons: not good taxonomic name, error in species name or name not in the database
-Interval                Type of interval calculation. Confidence or Prediction.
-Quantiv                a logical value indicating whether func_LDA should be done.
-as_list             To organize results as list (TRUE) or as table (FALSE).
+x                            a list of fauna. <br>
+y                      a list of 10 numeric BCI values for each plus the total number of fauna used<br>
+EUL                       a logical value indicating whether Eulipotyphla taxa should be stripped before the computation proceeds. TRUE, include Eulipotyphla in computation. False, exclude it.<br>
+VERIF                   function determining if a verification of faunal elements should be given. Verification allows to know what elements are excluded, which can be related to three reasons: not good taxonomic name, error in species name or name not in the database<br>
+Interval                Type of interval calculation. Confidence or Prediction.<br>
+Quantiv                a logical value indicating whether func_LDA should be done.<br>
+as_list             To organize results as list (TRUE) or as table (FALSE).<br>
  
 Details <br>
 Method to infer past climate zones and quantify past climate condition by using small mammal fossil associations. It consists of two parts: the first is to predict a climate zone from Linear Discriminant Analysis (LDA) using the relationship between climatical typology of Walter (1970) and mammal communities; the second is to quantify climatic parameters from general multiple regression models using the weight of the mammal communities in each climatical zone. Two models were developed, the first based on Rodentia, and the second based on Rodentia and Eulipotyphla. <br>
