@@ -1,15 +1,15 @@
 # PalBER
 ## User Manual – September 2020
 
-File :
-PalBER.R
-Script including all functions for Paleartic bioclim method
-Need following files to work:
-data_species_biozone.csv
-bioclimatic spectra and climate.csv
+File : <br>
+PalBER.R<br>
+Script including all functions for Paleartic bioclim method<br>
+Need following files to work: <br>
+data_species_biozone.csv <br>
+bioclimatic spectra and climate.csv<br>
 
 ## Description 
-Compute qualitative and quantitative data from faunal list (Rodentia, Rodentia +Eulipotyphla)
+Compute qualitative and quantitative data from faunal list (Rodentia, Rodentia +Eulipotyphla)<br>
  
 Func_BIOCLIM2 (x, EUL = TRUE, verif = FALSE, interval = “prediction”, quantiv = TRUE, as_list = FALSE)
 Func_BCI_Calcul (x, EUL = TRUE, verif= FALSE, as_list = FALSE)
