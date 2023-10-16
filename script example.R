@@ -1,8 +1,8 @@
 # setting working directory
-setwd("C:/Work/Analyses chercheurs/Analyses Aurélien Royer/new/clean")
+setwd("C:/Work/Analyses chercheurs/Analyses AurÃ©lien Royer/new/clean")
 
 # loading the file with functions
-source("Utils.R")
+source("PalBER.R")
 
 # creating a faunal list
 LVLn_of_siteS <- c("Dicrostonyx_torquatus", "Alexandromys_oeconomus",
